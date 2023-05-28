@@ -1,0 +1,10 @@
+Capability: BookerAPI
+Task: Book a new room
+    Arrange Ensure that a twin room has not been booked
+    Act Try to book a twin room
+    Assert Verify that the room was booked successfully
+
+Task: Verify that a booked room can be removed
+    Arrange Ensure that a booked room exists
+    Act Try to remove the booked room
+    Assert Verify that the booked room has been removed
