@@ -1,0 +1,32 @@
+//Top 3 slowest passing tests
+
+from(bucket:"tgr_automation")
+|> range(start: -1d)
+|> filter(fn: (r) => r.status == "passed")
+  |> group(columns: ["execution_time"])
+  |> sort(desc: true)
+  |> unique(column: "test_name")
+  |> limit(n: 3)
+  |> keep(columns: ["test_name", "_value"])
+  
+//Execution times per test
+
+from(bucket:"tgr_automation")
+  |> range(start: -1d)
+|> filter(fn: (r) => r["_field"] == "execution_time")
+
+//Total passed tests
+
+from(bucket: "tgr_automation")
+    |> range(start: -1d) 
+    |> filter(fn: (r) => r.status == "passed")
+    |> group(columns: ["status"])
+    |> count()
+	
+//Total failed tests
+
+from(bucket: "tgr_automation")
+    |> range(start: -1d) 
+    |> filter(fn: (r) => r.status == "failed")
+    |> group(columns: ["status"])
+    |> count()
