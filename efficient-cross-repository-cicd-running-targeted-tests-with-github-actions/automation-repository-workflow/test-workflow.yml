@@ -1,0 +1,37 @@
+name: Run tests
+
+on:
+  repository_dispatch:
+    types:
+      - execute-ui-tests
+      - execute-api-tests
+
+jobs:
+  run-tests:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout automation repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT }}
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run UI or API tests
+        run: |
+          if ("${{github.event.action}}" -eq "execute-ui-tests") {
+            npm run ui-tests
+          }
+          elseif ("${{github.event.action}}" -eq "execute-api-tests") {
+            npm run api-tests
+          }
+          else {
+            Write-Output "Unsupported event action: ${{github.event.action}}"
+            exit 1
+          }

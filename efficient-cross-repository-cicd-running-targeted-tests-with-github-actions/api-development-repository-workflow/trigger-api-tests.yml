@@ -1,0 +1,19 @@
+name: Trigger API Tests
+
+on:
+  push:
+
+jobs:
+  trigger-api-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger API tests workflow
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.PAT}}
+          script: |
+            await github.request('POST /repos/{owner}/{repo}/dispatches', {
+              owner: 'Crypted39',
+              repo: 'Web-App-Automation',
+              event_type: 'execute-api-tests'
+            });
