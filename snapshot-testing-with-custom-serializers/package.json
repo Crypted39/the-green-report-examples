@@ -1,0 +1,17 @@
+{
+  "name": "snapshot-testing",
+  "version": "1.0.0",
+  "description": "Snapshot Testing with Custom Serializers",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Irfan Mujagic",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "snapshotSerializers": ["./customDateSerializer.js"]
+  }
+}
