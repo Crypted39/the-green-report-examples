@@ -17,7 +17,7 @@ capabilities = dict(
 )
 
 appium_server_url = 'http://localhost:4723'
-deep_link_url = "deep-link-app://deeplink"
+deep_link_url = 'deep-link-app://deeplink'
 
 
 class TestDeepLink(unittest.TestCase):
@@ -32,11 +32,11 @@ class TestDeepLink(unittest.TestCase):
         self.driver.get(deep_link_url)
         try:
             element = WebDriverWait(self.driver, 10).until(
-                ec.presence_of_element_located((AppiumBy.ID, "deepLinkText"))
+                ec.presence_of_element_located((AppiumBy.ID, 'deepLinkText'))
             )
             self.assertTrue(element.is_displayed(), "Element with ID 'deepLinkText' is not displayed!")
         except TimeoutException:
-            print("Error: Element not found after waiting for 10 seconds!")
+            print('Error: Element not found after waiting for 10 seconds!')
 
 
 if __name__ == '__main__':
