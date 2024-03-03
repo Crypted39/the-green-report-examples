@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Green Report</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: white;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .scrollable-div,
+        .non-scrollable-div {
+            width: 200px;
+            height: 300px;
+            border: 2px solid black;
+            border-radius: 20px;
+            padding: 10px;
+            margin: 5px;
+            background-color: #e7e3e7;
+        }
+
+        .scrollable-div {
+            overflow-y: scroll;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .scrollable-div::-webkit-scrollbar {
+            width: 0;
+        }
+
+        .non-scrollable-div {
+            overflow: hidden;
+        }
+
+        .space {
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="scrollable-div">
+            <h2>Scrollable Div</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non viverra turpis. Nullam fringilla
+                egestas
+                ullamcorper. In semper dignissim lectus id accumsan. Aliquam sit amet dui nisl. Duis in laoreet nibh,
+                quis volutpat erat. In quis neque efficitur, scelerisque ligula vel, ullamcorper nisi. Phasellus a magna
+                vitae enim lacinia efficitur.
+            </p>
+            <div class="space"></div>
+        </div>
+
+        <div class="non-scrollable-div">
+            <h2>Non-scrollable Div</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non viverra turpis. Nullam fringilla
+                egestas
+                ullamcorper. In semper dignissim lectus id accumsan. Aliquam sit amet dui nisl. Duis in laoreet nibh,
+                quis volutpat erat. In quis neque efficitur, scelerisque ligula vel, ullamcorper nisi. Phasellus a magna
+                vitae enim lacinia efficitur.
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
