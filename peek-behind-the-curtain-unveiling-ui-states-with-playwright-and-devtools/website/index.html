@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Green Report</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        #show-name {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #name-container {
+            width: 200px;
+            height: 50px;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        div.custom-class {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: lightgreen;
+            display: block !important;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="get-tv-shows-button">Get TV Show Name</button>
+    <div id="name-container">
+        <p id="show-name"></p>
+    </div>
+    <div id="hidden-content" class="fake" style="display: none;">This is a hidden feature!</div>
+    <script src="script.js"></script>
+</body>
+
+</html>
