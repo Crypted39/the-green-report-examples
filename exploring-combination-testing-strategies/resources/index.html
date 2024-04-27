@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkbox Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #optionsContainer {
+            margin-bottom: 20px;
+        }
+
+        #selectedOptions {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="optionsContainer">
+        <input type="checkbox" id="option1">
+        <label for="option1" class="checkboxLabel">Option 1</label><br>
+        <input type="checkbox" id="option2">
+        <label for="option2" class="checkboxLabel">Option 2</label><br>
+        <input type="checkbox" id="option3">
+        <label for="option3" class="checkboxLabel">Option 3</label><br>
+        <input type="checkbox" id="option4">
+        <label for="option4" class="checkboxLabel">Option 4</label><br>
+    </div>
+
+    <button onclick="displaySelectedOptions()" id="showOptionsBtn">Show Selected Options</button>
+    <div id="selectedOptions"></div>
+
+    <script>
+        function displaySelectedOptions() {
+            var selectedOptions = [];
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(function (checkbox) {
+                if (checkbox.checked) {
+                    selectedOptions.push(checkbox.nextElementSibling.textContent);
+                }
+            });
+            var selectedOptionsText = selectedOptions.length > 0 ? selectedOptions.join(', ') : 'None';
+            document.getElementById('selectedOptions').textContent = 'The following options are selected: ' + selectedOptionsText;
+        }
+    </script>
+
+</body>
+
+</html>
