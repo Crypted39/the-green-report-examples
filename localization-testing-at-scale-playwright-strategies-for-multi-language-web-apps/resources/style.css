@@ -1,0 +1,37 @@
+.main-container {
+    width: 600px;
+    height: 300px;
+    background-color: beige;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.header {
+    display: table;
+    width: 100%;
+    margin: 0;
+}
+
+.header>h1 {
+    text-align: left;
+    display: table-cell;
+}
+
+.header>div {
+    text-align: right;
+    display: table-cell;
+}
+
+#content {
+    margin-top: 40px;
+}
+
+#date, #number {
+    display: inline;
+}
+
+#number-container, #date-container {
+    display: block;
+    margin-top: 40px;
+    font-size: 18px;
+}
