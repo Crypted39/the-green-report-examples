@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>The Green Report</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1 class="main-heading">My Garden Progress Report</h1>
+    <div class="main-container">
+        <div class="controls">
+            <h2>Track Your Growth</h2>
+            <select name="plant-type" id="plants">
+                <option value="tomatoes">Tomatoes</option>
+                <option value="peppers">Peppers</option>
+                <option value="herbs">Herbs</option>
+                <option value="flowers">Flowers</option>
+            </select>
+            <select name="color-selector" id="colors">
+                <option value="green">Green</option>
+                <option value="red">Red</option>
+                <option value="yellow">Yellow</option>
+                <option value="purple">Purple</option>
+            </select>
+        </div>
+        <textarea id="garden-notes-auto-id" name="garden-notes" rows="4" cols="50"
+            placeholder="Write your garden notes here..."></textarea>
+        <h2>Recent Harvests</h2>
+        <table id="vegetables">
+            <tr>
+                <th id="vegetables-header">Vegetable</th>
+                <th id="vegetables-quantity">Quantity</th>
+            </tr>
+            <tr>
+                <td class="data-1-1">Tomatoes</td>
+                <td class="data-1-2">5</td>
+            </tr>
+        </table>
+        <h3>Tasks for Next Week</h3>
+        <ul class="task-list">
+            <li id="list-item-1">Weed the flower bed</li>
+            <li id="list-item-2">Water the peppers</li>
+            <li id="list-item-3">Harvest ripe tomatoes</li>
+        </ul>
+        <button id="track-button" class="submit-button">Track</button>
+    </div>
+</body>
+
+</html>

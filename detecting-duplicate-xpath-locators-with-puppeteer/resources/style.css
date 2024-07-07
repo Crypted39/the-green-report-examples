@@ -1,0 +1,63 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 2rem;
+}
+
+h1, h2, h3 {
+    margin: 1rem 0;
+}
+
+.controls {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.main-container {
+    width: 800px;
+    border-radius: 1rem;
+    background-color: gainsboro;
+    padding: 2rem;
+}
+
+select {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    width: 80%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+}
+
+th, td {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+ul {
+    width: 80%;
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#track-button {
+    width: 5rem;
+    height: 2rem;
+}
