@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Green Report</title>
+    <style>
+        /* Style to highlight focused elements */
+        :focus {
+            outline: 2px solid blue;
+            outline-offset: 2px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 300px;
+            margin: 20px;
+            background-color: antiquewhite;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        #link-1,
+        #link-2,
+        #link-3 {
+            color: black;
+        }
+
+        #button-1,
+        #button-2 {
+            background-color: #afae72;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        #input-1,
+        #input-2,
+        #select-1 {
+            width: 100%;
+            padding: 12px 10px;
+            margin: 4px 0;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+        }
+
+        #textarea-1 {
+            width: 100%;
+            height: 100px;
+            padding: 12px 10px;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            background-color: #f8f8f8;
+            font-size: 16px;
+            resize: none;
+        }
+
+        .no-focus-outline {
+            outline: none;
+            /* Removes focus outline */
+            border: none;
+            /* Removes border */
+            box-shadow: none;
+            /* No shadow to indicate focus */
+            background-color: #afae72;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Focus Order Test</h1>
+        <a href="#" id="link-1">First Link</a>
+        <button id="button-1">First Button</button>
+        <input type="text" id="input-1" placeholder="First Input" />
+        <a href="#" id="link-2">Second Link</a>
+        <button id="button-2">Second Button</button>
+        <input type="text" id="input-2" placeholder="Second Input" />
+        <textarea id="textarea-1" placeholder="Textarea"></textarea>
+        <select id="select-1">
+            <option value="option-1">Option 1</option>
+            <option value="option-2">Option 2</option>
+        </select>
+        <a href="#" id="link-3">Third Link</a>
+
+        <!-- <button id="button-no-focus" class="no-focus-outline">No Focus Indicator</button> -->
+    </div>
+
+</body>
+
+</html>
