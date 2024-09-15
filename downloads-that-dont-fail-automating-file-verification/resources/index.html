@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Green Report</title>
+</head>
+
+<style>
+    .containers {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        gap: 20px;
+    }
+
+    .container {
+        width: 300px;
+        height: 250px;
+        background-color: rgb(196, 208, 224);
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    input {
+        padding: 8px;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 10px;
+        background-color: rgb(100, 149, 237);
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+</style>
+
+<body>
+    <div class="containers">
+        <div class="container">
+            <p>Download via link</p>
+            <a id="download-link" href="#">Click to Download</a>
+        </div>
+
+        <div class="container">
+            <p>Download via form submission</p>
+            <form id="download-form">
+                <input type="text" name="first-name" placeholder="First Name" required />
+                <input type="text" name="last-name" placeholder="Last Name" required />
+                <button type="submit" id="submit-button">Submit and Download</button>
+            </form>
+        </div>
+
+        <div class="container">
+            <p>Download via button click</p>
+            <button id="download-button">Download Sample File</button>
+        </div>
+    </div>
+
+    <script>
+        const fileContent = 'This is a sample file for testing download verification.';
+
+        document.getElementById('download-link').addEventListener('click', function (event) {
+            event.preventDefault();
+            const element = document.createElement('a');
+            const file = new Blob([fileContent], { type: 'text/plain' });
+            element.href = URL.createObjectURL(file);
+            element.download = 'sample-file.txt';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        });
+
+        document.getElementById('download-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const element = document.createElement('a');
+            const file = new Blob([fileContent], { type: 'text/plain' });
+            element.href = URL.createObjectURL(file);
+            element.download = 'sample-file.txt';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        });
+
+        document.getElementById('download-button').addEventListener('click', function () {
+            const element = document.createElement('a');
+            const file = new Blob([fileContent], { type: 'text/plain' });
+            element.href = URL.createObjectURL(file);
+            element.download = 'sample-file.txt';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        });
+    </script>
+</body>
+
+</html>
