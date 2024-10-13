@@ -1,0 +1,3 @@
+The app uses Express for the server, so you will need to install Express.js by running npm install express. 
+To run the app, simply execute node server.js from the folder where server.js is located. 
+By default, the app will be running on port 3000, accessible through http://localhost:3000.

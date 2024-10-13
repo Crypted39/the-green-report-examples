@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Green Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        button,
+        select {
+            margin: 10px;
+            padding: 10px;
+        }
+
+        #api-container {
+            margin-top: 20px;
+        }
+
+        .api-error {
+            color: red;
+        }
+
+        .response-container {
+            text-align: center;
+            margin: 5px auto;
+            border: 1px solid black;
+            border-radius: 5px;
+            background-color: rgb(245, 177, 155);
+            width: 300px;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <button id="button-1">Fetch API 1 & API 2</button>
+        <button id="button-2">Fetch API 3</button>
+
+        <div>
+            <h3>Set Response Codes for APIs</h3>
+            <div>
+                <label for="api-error-code-1">API 1 Response:</label>
+                <select id="api-error-code-1">
+                    <option value="200">200 OK</option>
+                    <option value="404">404 Not Found</option>
+                    <option value="500">500 Internal Server Error</option>
+                </select>
+            </div>
+            <div>
+                <label for="api-error-code-2">API 2 Response:</label>
+                <select id="api-error-code-2">
+                    <option value="200">200 OK</option>
+                    <option value="404">404 Not Found</option>
+                    <option value="500">500 Internal Server Error</option>
+                </select>
+            </div>
+            <div>
+                <label for="api-error-code-3">API 3 Response:</label>
+                <select id="api-error-code-3">
+                    <option value="200">200 OK</option>
+                    <option value="404">404 Not Found</option>
+                    <option value="500">500 Internal Server Error</option>
+                </select>
+            </div>
+        </div>
+
+        <button id="apply-error-code">Apply Response Codes</button>
+        <div id="api-container"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
