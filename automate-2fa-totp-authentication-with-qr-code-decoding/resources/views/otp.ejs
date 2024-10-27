@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Green Report - OTP Verification</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div id="otp-container">
+        <h1 id="otp-header">Verify OTP</h1>
+
+        <% if (error) { %>
+            <p style="color: red;">
+                <%= error %>
+            </p>
+            <% } %>
+
+                <img id="qr-code" src="<%= qrCodeDataURL %>" alt="QR Code">
+                <p>Scan this QR code in your authenticator app to generate your OTP.</p>
+
+                <form action="/verify-otp" method="post">
+                    <label for="otp">Enter OTP:</label>
+                    <input type="text" id="otp" name="otp" required>
+                    <button type="submit" id="verify-button">Verify</button>
+                </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+form {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+#header, #otp-header {
+    padding-top: 20px;
+}
+
+#container {
+    width: 600px;
+    height: 200px;
+    background-color: lightgray;
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+#otp-container {
+    width: 600px;
+    height: 400px;
+    background-color: lightgray;
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+#login-success-message {
+    font-size: 40px;
+    text-align: center;
+    background-color: lightgray;
+    width: 350px;
+    margin: 0 auto;
+    border-radius: 10px;
+    height: 50px;
+}

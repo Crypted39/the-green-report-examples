@@ -1,0 +1,5 @@
+1. Navigate to the root folder of the testing application
+2. Run 'npm install'
+3. In the app.js file add a custom username and password for testing
+4. Run 'npm start'
+5. Navigate to http://localhost:3000/login
