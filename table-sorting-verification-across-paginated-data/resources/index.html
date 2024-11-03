@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Green Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 14px;
+            position: relative;
+            padding-right: 20px;
+        }
+
+        th.sort-asc::after {
+            content: '▲';
+            position: absolute;
+            right: 10px;
+            font-size: 12px;
+        }
+
+        th.sort-desc::after {
+            content: '▼';
+            position: absolute;
+            right: 10px;
+            font-size: 12px;
+        }
+
+
+        td {
+            background-color: #fff;
+            color: #333;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover td {
+            background-color: #f1f1f1;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination button:hover {
+            background-color: #45a049;
+        }
+
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #pageInfo {
+            display: inline-block;
+            margin: 0 10px;
+            font-weight: bold;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Paginated Table with API Data</h2>
+
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th data-sort="name" onclick="changeSort('name')">Name</th>
+                <th data-sort="age" onclick="changeSort('age')">Age</th>
+                <th data-sort="joiningDate" onclick="changeSort('joiningDate')">Joining Date</th>
+                <th data-sort="salary" onclick="changeSort('salary')">Salary</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button onclick="prevPage()">Previous</button>
+        <span id="pageInfo"></span>
+        <button onclick="nextPage()">Next</button>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let totalPages = 1;
+        let sortBy = "name";
+        let sortDirection = "asc";
+
+        // Fetch data from API
+        async function fetchData() {
+            const response = await fetch(`http://localhost:3000/api/data?page=${currentPage}&limit=5&sortBy=${sortBy}&sortDirection=${sortDirection}`);
+            const result = await response.json();
+
+            totalPages = result.totalPages;
+            document.getElementById("pageInfo").innerText = `Page ${currentPage} of ${totalPages}`;
+            displayTableData(result.data);
+        }
+
+        // Display data in the table
+        function displayTableData(data) {
+            const tableBody = document.getElementById("tableBody");
+            tableBody.innerHTML = "";
+
+            data.forEach(row => {
+                const rowElement = document.createElement("tr");
+                rowElement.innerHTML = `
+                    <td>${row.name}</td>
+                    <td>${row.age}</td>
+                    <td>${new Date(row.joiningDate).toISOString().split('T')[0]}</td>
+                    <td>$${row.salary}</td>
+                `;
+                tableBody.appendChild(rowElement);
+            });
+        }
+
+        // Change sorting and reload data
+        function changeSort(column) {
+            if (sortBy === column) {
+                sortDirection = sortDirection === "asc" ? "desc" : "asc";
+            } else {
+                sortBy = column;
+                sortDirection = "asc";
+            }
+            updateSortIcons();
+            fetchData();
+        }
+
+        // Update sort icons
+        function updateSortIcons() {
+            const headers = document.querySelectorAll("th");
+            headers.forEach(header => {
+                header.classList.remove("sort-asc", "sort-desc");
+                if (header.getAttribute("data-sort") === sortBy) {
+                    header.classList.add(sortDirection === "asc" ? "sort-asc" : "sort-desc");
+                }
+            });
+        }
+
+        // Pagination controls
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                fetchData();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                fetchData();
+            }
+        }
+
+        // Load initial data
+        fetchData();
+    </script>
+
+</body>
+
+</html>
