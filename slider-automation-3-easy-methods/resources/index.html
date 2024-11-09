@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Green Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        .slider-container {
+            width: 300px;
+            margin: 20px;
+        }
+
+        .slider-label {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .slider {
+            width: 100%;
+        }
+
+        .value-display {
+            margin-top: 10px;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="slider-container">
+        <label class="slider-label" for="priceRangeSlider">Select Price Range</label>
+        <input type="range" id="priceRangeSlider" class="slider" min="10" max="300" value="50" step="1">
+        <div class="value-display">Selected Price: $<span id="sliderValue">50</span></div>
+    </div>
+
+    <script>
+        const slider = document.getElementById('priceRangeSlider');
+        const sliderValueDisplay = document.getElementById('sliderValue');
+
+        // Display the initial slider value
+        sliderValueDisplay.textContent = slider.value;
+
+        // Update the display value as the slider moves
+        slider.addEventListener('input', () => {
+            sliderValueDisplay.textContent = slider.value;
+        });
+    </script>
+
+</body>
+
+</html>
