@@ -1,0 +1,33 @@
+1. Install all dependencies 'npm install express socket.io peerjs react react-dom socket.io-client'
+2. Remove existing client directory
+3. Run 'npx create-react-app client' in the root directory
+4. Add the .env file to the client directory
+5. Run the server 'npm run server'
+6. Run the client 'npm run client'
+7. For the test project install all dependencies 'npm install'
+8. Run the tests
+
+At the end you should have a similar project structure for your app:
+
+project-root/
+├── client/
+│   ├── node_modules/
+│   ├── public/
+│   ├── src/
+│   │   ├── App.js
+│   │   ├── index.js
+│   │   └── ... (other React files)
+│   ├── .env
+│   └── package.json
+├── server/
+│   └── server.js
+
+And for the tests:
+
+project-root/
+├── tests/
+│   └── integration.test.js
+├── node_modules/
+└── package.json
+
+Or you can combine them into one project.
