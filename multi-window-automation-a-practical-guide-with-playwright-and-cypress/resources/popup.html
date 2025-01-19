@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TGR User Authentication</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+
+        .popup {
+            width: 300px;
+            height: 150px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #username {
+            padding: 8px;
+            margin-bottom: 1rem;
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #submit {
+            padding: 6px 12px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+        }
+
+        #submit:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="popup">
+        <input type="text" id="username" placeholder="Enter Username">
+        <br>
+        <button id="submit">Submit</button>
+    </div>
+
+    <script>
+        document.getElementById('submit').addEventListener('click', () => {
+            const username = document.getElementById('username').value;
+            if (username) {
+                window.opener.document.getElementById('auth-status').textContent =
+                    `User ${username} successfully authenticated.`;
+            } else {
+                window.opener.document.getElementById('auth-status').textContent =
+                    "User not authenticated.";
+            }
+            window.close();
+        });
+    </script>
+</body>
+
+</html>

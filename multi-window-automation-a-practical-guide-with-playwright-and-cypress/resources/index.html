@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TGR Authentication</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+
+        h1 {
+            color: #1a1a1a;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #auth-status {
+            margin-top: 1rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Authentication</h1>
+    <button id="authButton">Authenticate</button>
+    <p id="auth-status">User not authenticated.</p>
+
+    <script>
+        const authButton = document.getElementById('authButton');
+
+        authButton.addEventListener('click', () => {
+            const popupWindow = window.open(
+                'popup.html',
+                'Authentication',
+                'width=400,height=300,resizable=yes,scrollbars=yes'
+            );
+        });
+    </script>
+</body>
+
+</html>
