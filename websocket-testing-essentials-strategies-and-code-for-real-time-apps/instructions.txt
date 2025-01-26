@@ -1,0 +1,14 @@
+To setup the project you just need to execute the following 2 commands:
+
+1. npm init
+2. npm install ws
+
+Now in one terminal window start the WebSocket server with:
+
+node .\websocketServer.js 
+
+and in another terminal window execute any of the test scripts:
+
+node .\connectionTest.js   
+node .\messageValidationTest.js 
+node .\errorSimulationTest.js  
