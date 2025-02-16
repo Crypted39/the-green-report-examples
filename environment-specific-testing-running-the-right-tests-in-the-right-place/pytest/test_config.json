@@ -1,0 +1,5 @@
+{
+    "qa": ["testA", "testB", "testC"],
+    "dev": ["testA", "testB"],
+    "perf": ["testA"]
+}
