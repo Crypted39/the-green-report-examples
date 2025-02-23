@@ -153,7 +153,7 @@ async def test_line_graph():
         await page.set_viewport_size({"width": 1200, "height": 800})
 
         # Navigate to the page
-        await page.goto("http://127.0.0.1:5500/index.html")
+        await page.goto("https://your-graph-page.com")
 
         # Wait for the chart to be rendered
         await page.wait_for_selector('canvas#lineGraph')
