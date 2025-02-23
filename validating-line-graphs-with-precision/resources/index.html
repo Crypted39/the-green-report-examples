@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>The Green Report</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .graph-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .controls {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .data-point {
+            cursor: pointer;
+        }
+
+        #apiData {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Line Graph Test Application</h1>
+
+    <div class="controls">
+        <button onclick="regenerateData()">Regenerate Random Data</button>
+        <button onclick="showApiData()">Show API Data</button>
+    </div>
+
+    <div class="graph-container">
+        <canvas id="lineGraph"></canvas>
+    </div>
+
+    <pre id="apiData"></pre>
+
+    <script>
+        // Generate 7 days of data
+        function generateTestData() {
+            const data = [];
+            const baseValue = 1000;
+            const now = new Date();
+
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date(now);
+                date.setDate(date.getDate() - i);
+
+                data.push({
+                    date: date.toISOString().split('T')[0],
+                    value: Math.round(baseValue + (Math.random() - 0.5) * 200)
+                });
+            }
+
+            return data;
+        }
+
+        let currentData = generateTestData();
+        let chart;
+
+        function createChart(data) {
+            const ctx = document.getElementById('lineGraph').getContext('2d');
+
+            // Destroy existing chart if it exists
+            if (chart) {
+                chart.destroy();
+            }
+
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.map(d => d.date),
+                    datasets: [{
+                        label: 'Daily Values',
+                        data: data.map(d => d.value),
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: '#007bff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return `Value: ${context.parsed.y}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function (value) {
+                                    return value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    elements: {
+                        point: {
+                            pointStyle: 'circle',
+                        }
+                    }
+                }
+            });
+
+            // Add data attributes to points for testing
+            const points = chart.getDatasetMeta(0).data;
+            points.forEach((point, index) => {
+                point.element = {
+                    attributes: {
+                        'data-date': data[index].date,
+                        'data-value': data[index].value
+                    }
+                };
+            });
+        }
+
+        // Mock API endpoint
+        function mockApiEndpoint() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        status: 200,
+                        data: currentData
+                    });
+                }, 100);
+            });
+        }
+
+        function regenerateData() {
+            currentData = generateTestData();
+            createChart(currentData);
+            document.getElementById('apiData').textContent = '';
+        }
+
+        async function showApiData() {
+            const response = await mockApiEndpoint();
+            document.getElementById('apiData').textContent =
+                JSON.stringify(response, null, 2);
+        }
+
+        // Initialize the chart
+        createChart(currentData);
+
+        // Make data available for testing
+        window.getGraphData = () => currentData;
+    </script>
+</body>
+
+</html>
