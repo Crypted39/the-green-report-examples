@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Green Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 600px;
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .action-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            z-index: 100;
+        }
+
+        .action-btn {
+            display: block;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            margin: 5px 0;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: #3367d6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Smart Text Selection Demo</h1>
+        <p id="demo-text">
+            Join us for our annual conference on March 15, 2025 at the Grand Hotel.
+            For reservations, call (555) 123-4567. The venue is located at
+            123 Main Street, San Francisco, CA 94105. Please RSVP by February 28, 2025.
+            You can also contact our event coordinator at events@example.com.
+        </p>
+    </div>
+
+    <div id="action-menu" class="action-menu"></div>
+
+    <script>
+        // Store the selected text globally
+        let currentSelection = '';
+
+        // Selection handler
+        document.addEventListener('mouseup', handleSelection);
+        document.addEventListener('touchend', handleSelection);
+
+        function handleSelection(event) {
+            // Short delay to ensure selection is complete
+            setTimeout(() => {
+                const selection = window.getSelection();
+                currentSelection = selection.toString().trim();
+
+                if (!currentSelection) {
+                    hideActionMenu();
+                    return;
+                }
+
+                // Get selection coordinates
+                if (selection.rangeCount <= 0) return;
+                const range = selection.getRangeAt(0);
+                const rect = range.getBoundingClientRect();
+
+                // Extract data types from the selection
+                const extractedData = extractDataFromText(currentSelection);
+
+                // If we found an exact match of a supported type
+                if (extractedData) {
+                    showActionMenuForData(rect, extractedData);
+                } else {
+                    hideActionMenu();
+                }
+            }, 10);
+        }
+
+        // Click outside to dismiss
+        document.addEventListener('mousedown', function (event) {
+            // If clicking outside the menu, hide it
+            const menu = document.getElementById('action-menu');
+            if (menu.style.display === 'block' && !menu.contains(event.target)) {
+                hideActionMenu();
+            }
+        });
+
+        function extractDataFromText(text) {
+            // Try to extract email
+            const emailMatch = text.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+            if (emailMatch && emailMatch[0] === text) {
+                return { type: 'email', value: text };
+            }
+
+            // Try to extract phone number
+            const phoneMatch = text.match(/\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/);
+            if (phoneMatch && phoneMatch[0] === text) {
+                return { type: 'phone', value: text };
+            }
+
+            // Try to extract address
+            const addressMatch = text.match(/\d+\s+[A-Za-z\s]+,\s+[A-Za-z\s]+,\s+[A-Z]{2}\s+\d{5}/);
+            if (addressMatch && addressMatch[0] === text) {
+                return { type: 'address', value: text };
+            }
+
+            // Try to extract date
+            const dateRegex = /\b(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2},\s+\d{4}\b|\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/;
+            const dateMatch = text.match(dateRegex);
+            if (dateMatch && dateMatch[0] === text) {
+                return { type: 'date', value: text };
+            }
+
+            return null;
+        }
+
+        function showActionMenuForData(rect, data) {
+            let actions = [];
+
+            // Set appropriate actions based on data type
+            switch (data.type) {
+                case 'email':
+                    actions = [{ text: "Send Email", action: () => sendEmail(data.value) }];
+                    break;
+                case 'phone':
+                    actions = [
+                        { text: "Call Number", action: () => callNumber(data.value) },
+                        { text: "Add to Contacts", action: () => addToContacts(data.value) }
+                    ];
+                    break;
+                case 'address':
+                    actions = [
+                        { text: "View on Maps", action: () => openMaps(data.value) },
+                        { text: "Get Directions", action: () => getDirections(data.value) }
+                    ];
+                    break;
+                case 'date':
+                    actions = [{ text: "Add to Calendar", action: () => addToCalendar(data.value) }];
+                    break;
+                default:
+                    return;
+            }
+
+            showActionMenu(rect, actions);
+        }
+
+        function showActionMenu(rect, actions) {
+            const menu = document.getElementById('action-menu');
+            menu.innerHTML = '';
+
+            // Create buttons for each action
+            actions.forEach(action => {
+                const button = document.createElement('button');
+                button.className = 'action-btn';
+                button.textContent = action.text;
+
+                // Direct onclick function
+                button.onclick = function () {
+                    action.action();
+                };
+
+                menu.appendChild(button);
+            });
+
+            // Position the menu just below the selection
+            const menuLeft = window.scrollX + rect.left;
+            const menuTop = window.scrollY + rect.bottom + 10;
+
+            menu.style.display = 'block';
+            menu.style.left = `${menuLeft}px`;
+            menu.style.top = `${menuTop}px`;
+        }
+
+        function hideActionMenu() {
+            document.getElementById('action-menu').style.display = 'none';
+        }
+
+        // Action functions (demo implementations)
+        function openMaps(address) {
+            alert(`Opening maps for: ${address}`);
+            hideActionMenu();
+        }
+
+        function getDirections(address) {
+            alert(`Getting directions to: ${address}`);
+            hideActionMenu();
+        }
+
+        function addToCalendar(date) {
+            alert(`Adding event on ${date} to calendar`);
+            hideActionMenu();
+        }
+
+        function callNumber(number) {
+            alert(`Calling: ${number}`);
+            hideActionMenu();
+        }
+
+        function addToContacts(number) {
+            alert(`Adding ${number} to contacts`);
+            hideActionMenu();
+        }
+
+        function sendEmail(email) {
+            alert(`Composing email to: ${email}`);
+            hideActionMenu();
+        }
+    </script>
+</body>
+
+</html>
