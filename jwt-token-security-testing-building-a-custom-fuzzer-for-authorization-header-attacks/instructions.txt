@@ -1,0 +1,7 @@
+1. Install dependencies for the server by executing: npm install express jsonwebtoken body-parser
+2. Start the server by executing: node server.js
+3. Get a valid token for your test by:
+a) executing a curl command like: curl -X POST http://localhost:3000/api/login -H "Content-Type: application/json" -d '{"username":"user","password":"password"}'
+b) hitting the endpoint via an API client like Postman, Insomnia or similar ones
+4. update the valid_token value with the generated one
+5. Execute the test
