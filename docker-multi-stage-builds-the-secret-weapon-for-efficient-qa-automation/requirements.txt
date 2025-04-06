@@ -1,0 +1,5 @@
+pytest==7.4.3
+selenium==4.15.2
+pytest-selenium==4.0.1
+webdriver-manager==4.0.1
+py==1.11.0
