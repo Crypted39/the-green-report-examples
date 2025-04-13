@@ -1,0 +1,21 @@
+{
+  "name": "mock-for-nextjs-middleware-code",
+  "version": "1.0.0",
+  "main": "vulnerable-app.js",
+  "scripts": {
+    "start": "node vulnerable-app.js",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "http": "^0.0.1-security",
+    "jest": "^29.7.0",
+    "supertest": "^7.1.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true
+  }
+}
