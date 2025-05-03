@@ -1,0 +1,14 @@
+{
+  "name": "jest-file-structure-matcher",
+  "description": "Custom Jest matcher for file structure validation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Irfan Mujagic",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
