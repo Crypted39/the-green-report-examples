@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Green Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 320px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.6rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .message {
+            margin-top: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .failure {
+            color: red;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div id="login-form">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username" />
+            <input type="password" id="password" placeholder="Password" />
+            <button onclick="login()" id="login-btn">Login</button>
+            <div id="login-message" class="message"></div>
+        </div>
+
+        <!-- User Details Form -->
+        <div id="user-form" class="hidden">
+            <h2>User Info</h2>
+            <input type="text" id="first_name_field" placeholder="First Name" />
+            <input type="text" id="last_name_field" placeholder="Last Name" />
+            <input type="email" id="email_field" placeholder="Email" />
+            <button onclick="submitForm()" id="submit_button">Submit</button>
+            <div id="form-message" class="message"></div>
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const loginMessage = document.getElementById('login-message');
+
+            if (username === 'testuser' && password === 'testpass123') {
+                loginMessage.textContent = '';
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('user-form').classList.remove('hidden');
+            } else {
+                loginMessage.textContent = 'Invalid username or password.';
+                loginMessage.className = 'message failure';
+            }
+        }
+
+        function submitForm() {
+            const firstName = document.getElementById('first-name').value.trim();
+            const lastName = document.getElementById('last-name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const formMessage = document.getElementById('form-message');
+
+            if (firstName && lastName && email) {
+                formMessage.textContent = 'Form submitted successfully!';
+                formMessage.className = 'message success';
+            } else {
+                formMessage.textContent = 'Please fill in all fields.';
+                formMessage.className = 'message failure';
+            }
+        }
+    </script>
+</body>
+
+</html>

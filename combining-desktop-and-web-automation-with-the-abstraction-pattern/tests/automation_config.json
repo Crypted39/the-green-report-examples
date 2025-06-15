@@ -1,0 +1,26 @@
+{
+  "platform": "web",
+  "web": {
+    "browser": "chrome",
+    "headless": false,
+    "implicit_wait": 10
+  },
+  "desktop": {
+    "screenshot_on_failure": true,
+    "pause_between_actions": 0.5
+  },
+  "elements": {
+    "login_button": {
+      "web": "id:login-btn",
+      "desktop": "login_button.png"
+    },
+    "username_field": {
+      "web": "id:username",
+      "desktop": "username_field.png"
+    },
+    "password_field": {
+      "web": "id:password",
+      "desktop": "password_field.png"
+    }
+  }
+}
