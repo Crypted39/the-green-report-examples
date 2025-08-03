@@ -1,0 +1,14 @@
+{
+  "name": "rating-webapp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "The Green Report",
+  "license": "ISC",
+  "description": "Rating Widget used for testing purposes",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
