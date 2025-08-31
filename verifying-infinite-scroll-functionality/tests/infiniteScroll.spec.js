@@ -7,7 +7,7 @@ test.describe("Infinite Scroll Functionality", () => {
     page = testPage;
 
     // Navigate to the demo page
-    await page.goto("http://127.0.0.1:5500/index.html");
+    await page.goto("");
 
     // Wait for the page to load completely
     await page.waitForLoadState("networkidle");
