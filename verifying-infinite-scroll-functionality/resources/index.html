@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Green Report</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --main-theme-color: #8bb410;
+            --light-color: #fff;
+            --light-color-alt: #6b7280;
+            --primary-background-color: #f8fafc;
+            --secondary-background-color: #ffffff;
+            --border-color: #e2e8f0;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary-background-color);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--secondary-background-color);
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .header {
+            background: linear-gradient(45deg, var(--main-theme-color), #729d0d);
+            color: var(--light-color);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .list-container {
+            height: 600px;
+            overflow-y: auto;
+            padding: 20px;
+            background: var(--primary-background-color);
+        }
+
+        .item {
+            background: var(--secondary-background-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        .item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 180, 16, 0.15);
+            border-color: var(--main-theme-color);
+        }
+
+        .item h3 {
+            color: var(--main-theme-color);
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .item p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: var(--light-color-alt);
+        }
+
+        .item-id {
+            background: var(--main-theme-color);
+            color: var(--primary-background-color);
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--light-color-alt);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--secondary-background-color);
+            border-top: 3px solid var(--main-theme-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        .end-message {
+            text-align: center;
+            padding: 40px;
+            color: var(--light-color-alt);
+            font-style: italic;
+        }
+
+        .stats {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(18, 19, 22, 0.95);
+            color: var(--light-color);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(139, 180, 16, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 8px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .list-container {
+                height: calc(100vh - 200px);
+                padding: 15px;
+            }
+
+            .stats {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="stats" id="stats">
+        <div>Loaded: <span id="loaded-count">0</span> items</div>
+        <div>Total: <span id="total-count">100</span> items</div>
+        <div>API Calls: <span id="api-calls">0</span></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Infinite Scroll Demo</h1>
+            <p>Scroll to the bottom to load more items automatically</p>
+        </div>
+
+        <div class="list-container" id="listContainer">
+            <div id="itemsList"></div>
+            <div id="loading" class="loading" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>Loading more items...</p>
+            </div>
+            <div id="endMessage" class="end-message" style="display: none;">
+                <p>🎉 You've reached the end! All items have been loaded.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class InfiniteScrollDemo {
+            constructor() {
+                this.currentPage = 0;
+                this.itemsPerPage = 20;
+                this.totalItems = 100;
+                this.isLoading = false;
+                this.allItemsLoaded = false;
+                this.apiCallCount = 0;
+                this.loadedItems = [];
+
+                this.listContainer = document.getElementById('listContainer');
+                this.itemsList = document.getElementById('itemsList');
+                this.loadingElement = document.getElementById('loading');
+                this.endMessage = document.getElementById('endMessage');
+
+                this.init();
+            }
+
+            init() {
+                this.loadInitialItems();
+                this.setupScrollListener();
+            }
+
+            setupScrollListener() {
+                this.listContainer.addEventListener('scroll', () => {
+                    if (this.shouldLoadMore()) {
+                        this.loadMoreItems();
+                    }
+                });
+            }
+
+            shouldLoadMore() {
+                const { scrollTop, scrollHeight, clientHeight } = this.listContainer;
+                const threshold = 100; // Load when 100px from bottom
+                return (
+                    scrollTop + clientHeight >= scrollHeight - threshold &&
+                    !this.isLoading &&
+                    !this.allItemsLoaded
+                );
+            }
+
+            async loadInitialItems() {
+                await this.loadMoreItems();
+            }
+
+            async loadMoreItems() {
+                if (this.isLoading || this.allItemsLoaded) return;
+
+                this.isLoading = true;
+                this.showLoading();
+
+                try {
+                    const newItems = await this.fetchItems(this.currentPage);
+                    this.renderItems(newItems);
+                    this.currentPage++;
+                    this.updateStats();
+
+                    if (this.loadedItems.length >= this.totalItems) {
+                        this.allItemsLoaded = true;
+                        this.showEndMessage();
+                    }
+                } catch (error) {
+                    console.error('Error loading items:', error);
+                } finally {
+                    this.isLoading = false;
+                    this.hideLoading();
+                }
+            }
+
+            async fetchItems(page) {
+                // Simulate API call delay
+                await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+
+                this.apiCallCount++;
+
+                const startIndex = page * this.itemsPerPage;
+                const endIndex = Math.min(startIndex + this.itemsPerPage, this.totalItems);
+                const items = [];
+
+                for (let i = startIndex; i < endIndex; i++) {
+                    items.push({
+                        id: i + 1,
+                        title: `Item ${i + 1}`,
+                        description: `This is a detailed description for item ${i + 1}. It contains some sample text to demonstrate the infinite scrolling functionality.`,
+                        timestamp: new Date(Date.now() - Math.random() * 10000000000).toLocaleString(),
+                        category: ['Technology', 'Science', 'Business', 'Health', 'Sports'][Math.floor(Math.random() * 5)]
+                    });
+                }
+
+                // Simulate occasional API failures (5% chance)
+                if (Math.random() < 0.05) {
+                    throw new Error('Simulated API failure');
+                }
+
+                return items;
+            }
+
+            renderItems(items) {
+                items.forEach((item, index) => {
+                    const itemElement = this.createItemElement(item);
+                    itemElement.style.animationDelay = `${index * 0.1}s`;
+                    this.itemsList.appendChild(itemElement);
+                    this.loadedItems.push(item);
+                });
+            }
+
+            createItemElement(item) {
+                const div = document.createElement('div');
+                div.className = 'item';
+                div.setAttribute('data-testid', `item-${item.id}`);
+                div.setAttribute('data-item-id', item.id);
+
+                div.innerHTML = `
+                    <h3>${item.title}</h3>
+                    <p>${item.description}</p>
+                    <div class="item-meta">
+                        <span class="item-id">ID: ${item.id}</span>
+                        <span>${item.category}</span>
+                        <span>${item.timestamp}</span>
+                    </div>
+                `;
+
+                return div;
+            }
+
+            showLoading() {
+                this.loadingElement.style.display = 'block';
+            }
+
+            hideLoading() {
+                this.loadingElement.style.display = 'none';
+            }
+
+            showEndMessage() {
+                this.endMessage.style.display = 'block';
+            }
+
+            updateStats() {
+                document.getElementById('loaded-count').textContent = this.loadedItems.length;
+                document.getElementById('api-calls').textContent = this.apiCallCount;
+            }
+
+            // Test helper methods
+            getLoadedItemsCount() {
+                return this.loadedItems.length;
+            }
+
+            getApiCallCount() {
+                return this.apiCallCount;
+            }
+
+            isCurrentlyLoading() {
+                return this.isLoading;
+            }
+
+            areAllItemsLoaded() {
+                return this.allItemsLoaded;
+            }
+        }
+
+        // Initialize the demo when page loads
+        let infiniteScrollDemo;
+        document.addEventListener('DOMContentLoaded', () => {
+            infiniteScrollDemo = new InfiniteScrollDemo();
+
+            // Expose to window for testing purposes
+            window.infiniteScrollDemo = infiniteScrollDemo;
+        });
+    </script>
+</body>
+
+</html>
