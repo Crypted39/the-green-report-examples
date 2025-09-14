@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>The Green Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+
+        .ok {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .fail {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Automation Detection Demo</h1>
+    <p>Click the button to check if this browser looks automated.</p>
+    <button onclick="detect()">Run Detection</button>
+    <div id="output" class="result"></div>
+
+    <script>
+        function detect() {
+            const reasons = [];
+
+            // 1. webdriver flag
+            if (navigator.webdriver) reasons.push("navigator.webdriver is TRUE");
+
+            // 2. plugins check
+            if (!navigator.plugins || navigator.plugins.length === 0) reasons.push("No plugins");
+
+            // 3. languages check
+            if (!navigator.languages || navigator.languages.length === 0) reasons.push("No languages");
+
+            // 4. userAgent headless
+            if (/Headless/.test(navigator.userAgent)) reasons.push("Headless userAgent");
+
+            const out = document.getElementById("output");
+            if (reasons.length === 0) {
+                out.className = "result ok";
+                out.innerHTML = "✅ No automation detected";
+            } else {
+                out.className = "result fail";
+                out.innerHTML = "❌ Automation detected:<ul><li>" + reasons.join("</li><li>") + "</li></ul>";
+            }
+        }
+    </script>
+</body>
+
+</html>
