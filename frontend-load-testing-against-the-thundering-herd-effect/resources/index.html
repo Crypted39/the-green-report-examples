@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Green Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            background: #2563eb;
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-tab {
+            padding: 0.75rem 1.5rem;
+            background: #e5e7eb;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-tab:hover {
+            background: #d1d5db;
+        }
+
+        .nav-tab.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .dashboard-content {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .api-log {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1f2937;
+            color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            max-width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .api-log h3 {
+            color: #60a5fa;
+            margin-bottom: 0.5rem;
+        }
+
+        .api-call {
+            margin: 0.25rem 0;
+            padding: 0.25rem;
+            border-radius: 3px;
+        }
+
+        .api-call.organizations {
+            background-color: #dc2626;
+        }
+
+        .api-call.other {
+            background-color: #059669;
+        }
+
+        .bug-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            z-index: 1001;
+            pointer-events: none;
+        }
+
+        .bug-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #374151;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .api-log {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Mock Dashboard - useEffect Bug Demo</h1>
+    </div>
+
+    <button class="bug-toggle" id="bug-toggle">
+        Bug: ENABLED
+    </button>
+
+    <div class="container">
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-tab="overview">Overview</button>
+            <button class="nav-tab" data-tab="analytics">Analytics</button>
+            <button class="nav-tab" data-tab="security">Security</button>
+            <button class="nav-tab" data-tab="dns">DNS</button>
+        </div>
+
+        <div class="dashboard-content">
+            <div id="overview" class="tab-content">
+                <h2>Dashboard Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="requests-count">-</div>
+                        <div class="stat-label">Total Requests</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="bandwidth-count">-</div>
+                        <div class="stat-label">Bandwidth (GB)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="cache-ratio">-</div>
+                        <div class="stat-label">Cache Hit Ratio</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="threats-blocked">-</div>
+                        <div class="stat-label">Threats Blocked</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="analytics" class="tab-content" style="display: none;">
+                <h2>Analytics</h2>
+                <p>Analytics data would be displayed here...</p>
+            </div>
+
+            <div id="security" class="tab-content" style="display: none;">
+                <h2>Security</h2>
+                <p>Security settings and data would be displayed here...</p>
+            </div>
+
+            <div id="dns" class="tab-content" style="display: none;">
+                <h2>DNS</h2>
+                <p>DNS records and settings would be displayed here...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="api-log">
+        <h3>API Calls Log</h3>
+        <div id="api-log-content"></div>
+    </div>
+
+    <div class="bug-indicator" id="bug-indicator">
+        useEffect Bug ACTIVE<br>
+        <small id="org-call-count">Org calls: 0</small>
+    </div>
+
+    <script>
+        // Mock API server endpoints
+        const API_BASE = window.location.origin;
+        const API_ENDPOINTS = {
+            organizations: '/api/organizations',
+            user: '/api/user',
+            stats: '/api/stats',
+            zones: '/api/zones'
+        };
+
+        // Global state - CHANGE THIS TO FALSE TO DISABLE THE BUG
+        let bugEnabled = true;
+        let apiCallCount = { organizations: 0, total: 0 };
+        let currentUser = null;
+        let dashboardData = null;
+
+        // This simulates the problematic React useEffect hook
+        class BuggyDashboard {
+            constructor() {
+                this.state = {
+                    user: null,
+                    organizations: null,
+                    loading: false
+                };
+                this.rerenderCount = 0;
+            }
+
+            // This simulates the buggy useEffect with problematic dependency
+            async useEffect_Organizations() {
+                if (!bugEnabled) {
+                    console.log('Bug disabled - making single organizations call');
+                    await this.fetchOrganizations();
+                    return;
+                }
+
+                // BUG: This object is recreated every render, causing infinite re-runs
+                const problematicDependency = {
+                    timestamp: Date.now(),
+                    randomValue: Math.random()
+                };
+
+                // This would run on every state change because the dependency is "always new"
+                this.rerenderCount++;
+                console.log(`useEffect re-run #${this.rerenderCount} - fetching organizations...`);
+
+                await this.fetchOrganizations();
+
+                // Simulate state changes that trigger more re-renders
+                if (this.rerenderCount < 15) { // Limit to prevent infinite loop in demo
+                    setTimeout(() => {
+                        this.setState({ loading: !this.state.loading });
+                    }, 100);
+                }
+            }
+
+            async fetchOrganizations() {
+                try {
+                    logApiCall('/api/organizations', 'organizations');
+                    const response = await fetch(`${API_BASE}/api/organizations`);
+                    const data = await response.json();
+                    this.state.organizations = data;
+                    return data;
+                } catch (error) {
+                    console.error('Failed to fetch organizations:', error);
+                    throw error;
+                }
+            }
+
+            setState(newState) {
+                this.state = { ...this.state, ...newState };
+                // This triggers a re-render, which triggers useEffect again (demonstrating the bug)
+                if (bugEnabled && this.rerenderCount < 15) {
+                    setTimeout(() => this.useEffect_Organizations(), 50);
+                }
+            }
+
+            async loadDashboard() {
+                this.rerenderCount = 0;
+                console.log('🚀 Loading dashboard...');
+
+                // This triggers the problematic useEffect
+                await this.useEffect_Organizations();
+
+                // Load other data (normal API calls)
+                await this.loadUserData();
+                await this.loadStats();
+            }
+
+            async loadUserData() {
+                logApiCall('/api/user', 'other');
+                const response = await fetch(`${API_BASE}/api/user`);
+                const data = await response.json();
+                this.state.user = data;
+                currentUser = data;
+                return data;
+            }
+
+            async loadStats() {
+                logApiCall('/api/stats', 'other');
+                const response = await fetch(`${API_BASE}/api/stats`);
+                const data = await response.json();
+                dashboardData = data;
+                updateDashboardUI(data);
+                return data;
+            }
+        }
+
+        // Initialize the buggy dashboard
+        const dashboard = new BuggyDashboard();
+
+        // API call logging
+        function logApiCall(endpoint, type) {
+            apiCallCount.total++;
+            if (type === 'organizations') {
+                apiCallCount.organizations++;
+            }
+
+            const logElement = document.getElementById('api-log-content');
+            const callElement = document.createElement('div');
+            callElement.className = `api-call ${type}`;
+            callElement.textContent = `${new Date().toLocaleTimeString()}: ${endpoint}`;
+
+            logElement.insertBefore(callElement, logElement.firstChild);
+
+            // Keep only last 20 entries
+            while (logElement.children.length > 20) {
+                logElement.removeChild(logElement.lastChild);
+            }
+
+            // Update the bug indicator with current count
+            updateBugIndicator();
+        }
+
+        function updateBugIndicator() {
+            const indicator = document.getElementById('bug-indicator');
+            const orgCountElement = document.getElementById('org-call-count');
+            const orgCount = apiCallCount.organizations;
+
+            orgCountElement.textContent = `Org calls: ${orgCount}`;
+
+            // Show/hide indicator based on bug status
+            if (bugEnabled) {
+                indicator.style.display = 'block';
+                // Change color based on call count to show the severity
+                if (orgCount > 10) {
+                    indicator.style.background = '#991b1b'; 
+                } else if (orgCount > 5) {
+                    indicator.style.background = '#dc2626'; 
+                } else {
+                    indicator.style.background = '#ea580c';
+                }
+            } else {
+                indicator.style.display = 'none';
+            }
+        }
+
+        // Bug toggle functionality
+        function toggleBug() {
+            bugEnabled = !bugEnabled;
+            const toggleButton = document.getElementById('bug-toggle');
+            toggleButton.textContent = `Bug: ${bugEnabled ? 'ENABLED' : 'DISABLED'}`;
+            toggleButton.style.background = bugEnabled ? '#dc2626' : '#059669';
+
+            // Reset counters when toggling
+            apiCallCount = { organizations: 0, total: 0 };
+            document.getElementById('api-log-content').innerHTML = '';
+            updateBugIndicator();
+
+            console.log(`Bug ${bugEnabled ? 'enabled' : 'disabled'}`);
+        }
+
+        // Mock API responses
+        async function handleApiRequest(endpoint) {
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 200));
+
+            switch (endpoint) {
+                case '/api/organizations':
+                    return {
+                        organizations: [
+                            { id: '1', name: 'My Organization', plan: 'Pro' }
+                        ]
+                    };
+                case '/api/user':
+                    return {
+                        id: 'user123',
+                        email: 'user@example.com',
+                        name: 'John Doe'
+                    };
+                case '/api/stats':
+                    return {
+                        requests: Math.floor(Math.random() * 1000000),
+                        bandwidth: Math.floor(Math.random() * 500),
+                        cacheRatio: Math.floor(Math.random() * 40 + 60),
+                        threatsBlocked: Math.floor(Math.random() * 10000)
+                    };
+                case '/api/zones':
+                    return {
+                        zones: [
+                            { id: 'zone1', name: 'example.com', status: 'active' }
+                        ]
+                    };
+                case '/api/metrics':
+                    return {
+                        organizationCalls: apiCallCount.organizations,
+                        totalCalls: apiCallCount.total,
+                        bugEnabled: bugEnabled
+                    };
+                default:
+                    return { error: 'Not found' };
+            }
+        }
+
+        // Mock fetch override to simulate API server
+        const originalFetch = window.fetch;
+        window.fetch = async function (url, options = {}) {
+            if (url.startsWith('/api/')) {
+                const endpoint = url.replace(window.location.origin, '');
+                const data = await handleApiRequest(endpoint);
+
+                return {
+                    ok: true,
+                    status: 200,
+                    json: async () => data,
+                    text: async () => JSON.stringify(data)
+                };
+            }
+            return originalFetch(url, options);
+        };
+
+        // UI Functions
+        function updateDashboardUI(data) {
+            document.getElementById('requests-count').textContent = data.requests.toLocaleString();
+            document.getElementById('bandwidth-count').textContent = data.bandwidth;
+            document.getElementById('cache-ratio').textContent = data.cacheRatio + '%';
+            document.getElementById('threats-blocked').textContent = data.threatsBlocked.toLocaleString();
+        }
+
+        // Tab switching
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', async () => {
+                const tabName = tab.dataset.tab;
+
+                // Update active tab
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Show corresponding content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+                document.getElementById(tabName).style.display = 'block';
+
+                // If returning to overview, reload data (this will trigger the bug again if enabled)
+                if (tabName === 'overview') {
+                    await dashboard.loadDashboard();
+                }
+            });
+        });
+
+        // Add bug toggle event listener
+        document.getElementById('bug-toggle').addEventListener('click', toggleBug);
+
+        // Initial load
+        window.addEventListener('load', () => {
+            console.log('🌟 Dashboard loaded - watch the API calls!');
+            dashboard.loadDashboard();
+        });
+
+        // Simulate page refresh (common user action that amplifies the bug)
+        window.addEventListener('beforeunload', () => {
+            console.log(`Session summary: ${apiCallCount.organizations} organizations calls, ${apiCallCount.total} total calls`);
+        });
+
+        // Export for k6 testing
+        window.getDashboardMetrics = () => ({
+            organizationCalls: apiCallCount.organizations,
+            totalCalls: apiCallCount.total,
+            bugEnabled: bugEnabled
+        });
+    </script>
+</body>
+
+</html>
