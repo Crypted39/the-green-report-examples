@@ -1,0 +1,7 @@
+1. Install dependencies by running 'npm install'
+2. Start the mock API server by running 'npm start'
+3. Run the k6 test by running:
+    - for bash: BASE_URL=http://localhost:3000 USER=testuser PASS=secret k6 run performanceBasics.js
+    - for powershell: $env:BASE_URL="http://localhost:3000"; $env:USER="testuser"; $env:PASS="secret"; k6 run .\performanceBasics.js
+
+NOTE: make sure to adjust the path to your k6 test file

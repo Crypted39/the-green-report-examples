@@ -1,0 +1,12 @@
+{
+  "name": "tgr-perf-basics",
+  "version": "1.0.0",
+  "description": "Mock API + k6 performance testing example",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "json-server": "^0.17.3"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "users": [
+    { "id": 1, "username": "testuser", "password": "secret", "token": "abc123" }
+  ],
+  "items": [
+    { "id": 1, "name": "k6 Basics", "description": "Intro guide" },
+    { "id": 2, "name": "Advanced k6", "description": "Load testing patterns" }
+  ]
+}
