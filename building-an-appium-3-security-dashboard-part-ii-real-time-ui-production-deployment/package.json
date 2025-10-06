@@ -1,0 +1,50 @@
+{
+  "name": "appium-security-dashboard",
+  "version": "1.0.0",
+  "main": "./lib/plugin.js",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "build": "babel src --out-dir lib",
+    "dev": "concurrently \"nodemon lib/plugin.js\" \"npm run dashboard\"",
+    "dashboard": "node scripts/setup.js"
+  },
+  "appium": {
+    "pluginName": "security-dashboard",
+    "mainClass": "SecurityDashboardPlugin",
+    "scripts": {
+      "setup": "./scripts/setup.js"
+    }
+  },
+  "peerDependencies": {
+    "appium": "^3.0.0"
+  },
+  "keywords": [
+    "appium",
+    "plugin",
+    "security",
+    "dashboard",
+    "monitoring"
+  ],
+  "author": "Irfan Mujagic",
+  "license": "ISC",
+  "description": "Real-time security monitoring dashboard for Appium 3",
+  "dependencies": {
+    "appium": "^3.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1",
+    "webdriverio": "^9.20.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.28.3",
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
+    "appium-uiautomator2-driver": "^5.0.3",
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.10"
+  }
+}

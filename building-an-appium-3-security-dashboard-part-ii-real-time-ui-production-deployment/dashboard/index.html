@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appium Security Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+
+<body>
+    <header class="dashboard-header">
+        <h1>🔒 Appium Security Dashboard</h1>
+        <div class="status-indicator">
+            <span id="connection-status" class="status-dot offline"></span>
+            <span id="connection-text">Connecting...</span>
+        </div>
+    </header>
+
+    <main class="dashboard-main">
+        <div class="dashboard-grid">
+            <!-- Overview Cards -->
+            <div class="card overview-card">
+                <h2>Security Overview</h2>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <span class="metric-value" id="active-sessions">0</span>
+                        <span class="metric-label">Active Sessions</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value" id="total-events">0</span>
+                        <span class="metric-label">Security Events</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value" id="high-risk-events">0</span>
+                        <span class="metric-label">High Risk Events</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value" id="overall-risk-level">Low</span>
+                        <span class="metric-label">Overall Risk</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Sessions -->
+            <div class="card sessions-card">
+                <h2>Active Sessions</h2>
+                <div id="sessions-list" class="sessions-list">
+                    <p class="no-data">No active sessions</p>
+                </div>
+            </div>
+
+            <!-- Risk Distribution Chart -->
+            <div class="card chart-card">
+                <h2>Risk Distribution</h2>
+                <div class="chart-container">
+                    <canvas id="riskChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Security Events Timeline -->
+            <div class="card events-card">
+                <h2>Recent Security Events</h2>
+                <div class="events-controls">
+                    <select id="event-filter">
+                        <option value="all">All Events</option>
+                        <option value="high">High Risk Only</option>
+                        <option value="medium">Medium Risk Only</option>
+                    </select>
+                </div>
+                <div id="events-timeline" class="events-timeline">
+                    <p class="no-data">No events</p>
+                </div>
+            </div>
+
+            <!-- Security Recommendations -->
+            <div class="card recommendations-card">
+                <h2>Security Recommendations</h2>
+                <div id="recommendations-list" class="recommendations-list">
+                    <p class="no-data">Loading recommendations...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Event Details Modal -->
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Event Details</h2>
+            <div id="event-details"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
