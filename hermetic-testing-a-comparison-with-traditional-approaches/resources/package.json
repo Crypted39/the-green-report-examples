@@ -1,0 +1,14 @@
+{
+  "name": "users-api-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Irfan Mujagic",
+  "license": "ISC",
+  "description": "simple server used for hermetic vs integration testing demonstration",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
