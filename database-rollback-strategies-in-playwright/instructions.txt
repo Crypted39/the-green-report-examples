@@ -1,0 +1,47 @@
+1. First, install Prisma as a dev dependency:
+npm install -D prisma
+npm install @prisma/client
+
+2. Run the Prisma initialization command:
+npx prisma init
+
+3. Open the .env file that was created and update the DATABASE_URL:
+DATABASE_URL="postgresql://username:password@localhost:5432/testdb"
+
+Replace the values with your actual database credentials:
+
+username: your database user
+password: your database password
+localhost:5432: your database host and port
+testdb: your database name
+
+4. Open prisma/schema.prisma and define the User model that the test expects:
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"  // or "mysql" or "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+5. Create the database tables based on your schema:
+npx prisma migrate dev --name init
+
+6. If you skipped the migration step, generate the client manually:
+npx prisma generate
+
+7. You can open Prisma Studio to verify everything is working:
+npx prisma studio
+
+8. Run the tests:
+npx playwright test tests/user.spec.ts
