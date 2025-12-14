@@ -1,0 +1,20 @@
+{
+  "name": "trace-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "generate-docs": "node generate-docs.js",
+    "serve-docs": "npx serve docs -p 3000"
+  },
+  "keywords": [],
+  "author": "Irfan Mujagic",
+  "license": "ISC",
+  "description": "Turn Your Playwright Traces Into Living Test Documentation - blog post example",
+  "devDependencies": {
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.0",
+    "serve": "^14.2.5",
+    "adm-zip": "^0.5.10"
+  }
+}
