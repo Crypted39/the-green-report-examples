@@ -1,0 +1,20 @@
+{
+  "name": "promptfoo-hooks",
+  "version": "1.0.0",
+  "description": "Demo project for Promptfoo Extension Hooks blog post",
+  "scripts": {
+    "eval": "npx promptfoo eval",
+    "eval:verbose": "npx promptfoo eval --verbose",
+    "eval:ci": "CI=true npx promptfoo eval",
+    "view": "npx promptfoo view",
+    "validate": "npx promptfoo validate"
+  },
+  "keywords": [
+    "promptfoo",
+    "llm-testing",
+    "qa-automation",
+    "extension-hooks"
+  ],
+  "author": "Irfan Mujagic",
+  "license": "MIT"
+}

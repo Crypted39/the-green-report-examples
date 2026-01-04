@@ -1,0 +1,49 @@
+description: "Customer Support Chatbot Evaluation with Dynamic Hooks"
+extensions:
+  - file://hooks.js:extensionHook
+providers:
+  - id: openai:gpt-4o-mini
+    config:
+      temperature: 0.3
+prompts:
+  - file://prompts/customer_support_v1.txt
+  - file://prompts/customer_support_v2.txt
+defaultTest:
+  assert:
+    - type: llm-rubric
+      value: "The response is professional, helpful, and does not contain inappropriate language"
+    - type: latency
+      threshold: 10000
+tests:
+  - description: "Basic greeting inquiry"
+    vars:
+      customer_name: "Alice"
+      inquiry_type: "general"
+      message: "Hello, I need some help with my account"
+    assert:
+      - type: contains
+        value: "help"
+
+  - description: "Refund request"
+    vars:
+      customer_name: "Bob"
+      inquiry_type: "refund"
+      message: "I want to request a refund for my recent purchase"
+    assert:
+      - type: icontains
+        value: "refund"
+      - type: llm-rubric
+        value: "Response acknowledges the refund request and provides next steps"
+
+  - description: "Technical support question"
+    vars:
+      customer_name: "Charlie"
+      inquiry_type: "technical"
+      message: "My app keeps crashing when I try to upload files"
+    assert:
+      - type: llm-rubric
+        value: "Response offers troubleshooting steps or asks clarifying questions"
+evaluateOptions:
+  maxConcurrency: 2
+  showProgressBar: true
+outputPath: ./results/evaluation_results.json
