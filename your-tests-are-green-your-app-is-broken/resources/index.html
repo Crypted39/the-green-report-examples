@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopLab — QA Automation Demo</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;700;800&family=Instrument+Serif:ital@0;1&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0f0f0f;
+            --surface: #1a1a1a;
+            --surface2: #242424;
+            --border: #2e2e2e;
+            --accent: #c8f04a;
+            --accent2: #f04a6e;
+            --text: #e8e8e8;
+            --muted: #6b6b6b;
+            --font-display: 'Syne', sans-serif;
+            --font-serif: 'Instrument Serif', serif;
+            --font-mono: 'DM Mono', monospace;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-display);
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        header {
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        /* This will break: <a> → plain text */
+        nav a#nav-products {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        nav a#nav-products:hover {
+            color: var(--text);
+        }
+
+        nav a#nav-deals {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        nav a#nav-deals:hover {
+            color: var(--text);
+        }
+
+        /* Cart button will break: <button> → <div> */
+        button#cart-btn {
+            background: var(--accent);
+            color: #0f0f0f;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        button#cart-btn:hover {
+            background: #d9ff5a;
+            transform: translateY(-1px);
+        }
+
+        .cart-count {
+            background: #0f0f0f;
+            color: var(--accent);
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            padding: 5rem 2rem 4rem;
+            border-bottom: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-tag {
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.05;
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 strong {
+            font-style: normal;
+            font-family: var(--font-display);
+            font-weight: 800;
+        }
+
+        .hero-desc {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        /* Primary CTA — will break: <button> → <div> losing click semantics */
+        button#hero-cta {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 0.85rem 2rem;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        button#hero-cta:hover {
+            background: var(--accent);
+            color: #0f0f0f;
+        }
+
+        .hero-visual {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            aspect-ratio: 4/3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 70% 30%, rgba(200, 240, 74, 0.08), transparent 60%);
+        }
+
+        .hero-price-tag {
+            font-family: var(--font-mono);
+            font-size: 3rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .hero-price-tag small {
+            font-size: 1rem;
+            color: var(--muted);
+            display: block;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        /* ── PRODUCTS ── */
+        .products-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        /* Filter toggle — will break: <button> → <span> */
+        button#filter-btn {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 0.4rem 0.9rem;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        button#filter-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .product-card {
+            background: var(--bg);
+            padding: 1.5rem;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            background: var(--surface);
+        }
+
+        .product-img {
+            aspect-ratio: 1;
+            background: var(--surface2);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-img::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(to top, var(--surface2), transparent);
+        }
+
+        /* Product name: <h3> → <div> will break heading semantics + test selectors */
+        h3.product-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-category {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.8rem;
+        }
+
+        .product-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Price: <strong> → <span> — subtle but breaks data-testid patterns */
+        strong.product-price {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+
+        /* Add to cart: <button> → <div> — will fully break click automation */
+        button.add-to-cart {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0.3rem;
+            transition: color 0.2s, transform 0.15s;
+        }
+
+        button.add-to-cart:hover {
+            color: var(--accent);
+            transform: scale(1.2);
+        }
+
+        /* ── SEARCH BAR ── */
+        .search-area {
+            padding: 2rem;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        /* Input: type="search" → type="text" — breaks [type=search] selectors */
+        input#search-input {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.7rem 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input#search-input:focus {
+            border-color: var(--accent);
+        }
+
+        input#search-input::placeholder {
+            color: var(--muted);
+        }
+
+        button#search-btn {
+            background: var(--accent);
+            border: none;
+            color: #0f0f0f;
+            padding: 0.7rem 1.5rem;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        button#search-btn:hover {
+            background: #d9ff5a;
+        }
+
+        /* ── NEWSLETTER ── */
+        .newsletter {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .newsletter-inner {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .newsletter-text {
+            flex: 1;
+        }
+
+        .newsletter-text h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .newsletter-text p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        /* Email input: name="email" → name="mail" — breaks form field selectors */
+        input#email-input {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.7rem 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        input#email-input::placeholder {
+            color: var(--muted);
+        }
+
+        button#subscribe-btn {
+            background: var(--accent2);
+            border: none;
+            color: #fff;
+            padding: 0.7rem 1.5rem;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer p {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        /* ── BREAK PANEL ── */
+        #break-panel {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            padding: 1.2rem 1.4rem;
+            width: 320px;
+            z-index: 999;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+
+        #break-panel h3 {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.7rem;
+        }
+
+        .break-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .break-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0.7rem;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            cursor: pointer;
+            transition: border-color 0.2s;
+            font-size: 0.78rem;
+        }
+
+        .break-item:hover {
+            border-color: var(--accent2);
+        }
+
+        .break-item.active {
+            border-color: var(--accent2);
+            background: rgba(240, 74, 110, 0.06);
+        }
+
+        .break-label {
+            color: var(--text);
+            font-family: var(--font-mono);
+        }
+
+        .break-tag {
+            font-size: 0.65rem;
+            padding: 0.15rem 0.5rem;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .break-item.active .break-tag {
+            border-color: var(--accent2);
+            color: var(--accent2);
+        }
+
+        .break-footer {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        button#apply-breaks {
+            flex: 1;
+            background: var(--accent2);
+            border: none;
+            color: #fff;
+            padding: 0.6rem;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: opacity 0.2s;
+        }
+
+        button#apply-breaks:hover {
+            opacity: 0.85;
+        }
+
+        button#reset-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 0.6rem 0.9rem;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        button#reset-btn:hover {
+            border-color: var(--muted);
+        }
+
+        .status-bar {
+            margin-top: 0.8rem;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--muted);
+            min-height: 1rem;
+        }
+
+        .status-bar.broke {
+            color: var(--accent2);
+        }
+
+        .status-bar.reset {
+            color: var(--accent);
+        }
+
+        /* ── BROKEN STATE STYLES ── */
+        /* These get applied via JS to simulate real-world DOM mutations */
+        .broken-nav-link {
+            color: var(--muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .broken-cart-btn {
+            background: var(--accent);
+            color: #0f0f0f;
+            padding: 0.5rem 1.2rem;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .broken-product-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .broken-price {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+
+        .broken-add-btn {
+            color: var(--muted);
+            font-size: 1.1rem;
+            padding: 0.3rem;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">Shop<span>Lab</span></div>
+        <nav>
+            <a href="#" id="nav-products">Products</a>
+            <a href="#" id="nav-deals">Deals</a>
+            <button id="cart-btn">
+                Cart <span class="cart-count" id="cart-count">0</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- SEARCH -->
+    <div class="search-area">
+        <input type="search" id="search-input" placeholder="Search products..." />
+        <button id="search-btn">Search</button>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div>
+            <p class="hero-tag">// New collection 2026</p>
+            <h1><strong>Next-gen</strong> gear for <em>modern makers</em></h1>
+            <p class="hero-desc">Handpicked tools, gadgets and accessories — tested by engineers, loved by everyone.</p>
+            <button id="hero-cta">Browse Collection</button>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-price-tag">
+                $299<small>Starting from</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="products-section">
+        <div class="section-header">
+            <h2 class="section-title">Featured Products</h2>
+            <button id="filter-btn">⚡ Filter</button>
+        </div>
+        <div class="product-grid" id="product-grid">
+
+            <div class="product-card" data-testid="product-card-1">
+                <div class="product-img">🎧</div>
+                <h3 class="product-name" id="product-name-1">AuraSound Pro</h3>
+                <p class="product-category">Audio</p>
+                <div class="product-footer">
+                    <strong class="product-price" id="price-1">$249</strong>
+                    <button class="add-to-cart" data-product="1" aria-label="Add AuraSound Pro to cart">＋</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-testid="product-card-2">
+                <div class="product-img">⌨️</div>
+                <h3 class="product-name" id="product-name-2">KeyForge TKL</h3>
+                <p class="product-category">Keyboards</p>
+                <div class="product-footer">
+                    <strong class="product-price" id="price-2">$189</strong>
+                    <button class="add-to-cart" data-product="2" aria-label="Add KeyForge TKL to cart">＋</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-testid="product-card-3">
+                <div class="product-img">🖱️</div>
+                <h3 class="product-name" id="product-name-3">DriftMouse X</h3>
+                <p class="product-category">Peripherals</p>
+                <div class="product-footer">
+                    <strong class="product-price" id="price-3">$79</strong>
+                    <button class="add-to-cart" data-product="3" aria-label="Add DriftMouse X to cart">＋</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-testid="product-card-4">
+                <div class="product-img">💡</div>
+                <h3 class="product-name" id="product-name-4">LumaDesk Lamp</h3>
+                <p class="product-category">Lighting</p>
+                <div class="product-footer">
+                    <strong class="product-price" id="price-4">$129</strong>
+                    <button class="add-to-cart" data-product="4" aria-label="Add LumaDesk Lamp to cart">＋</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-testid="product-card-5">
+                <div class="product-img">📷</div>
+                <h3 class="product-name" id="product-name-5">FrameShot Cam</h3>
+                <p class="product-category">Cameras</p>
+                <div class="product-footer">
+                    <strong class="product-price" id="price-5">$399</strong>
+                    <button class="add-to-cart" data-product="5" aria-label="Add FrameShot Cam to cart">＋</button>
+                </div>
+            </div>
+
+            <div class="product-card" data-testid="product-card-6">
+                <div class="product-img">🔋</div>
+                <h3 class="product-name" id="product-name-6">ChargePack Ultra</h3>
+                <p class="product-category">Power</p>
+                <div class="product-footer">
+                    <strong class="product-price" id="price-6">$59</strong>
+                    <button class="add-to-cart" data-product="6" aria-label="Add ChargePack Ultra to cart">＋</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <div class="newsletter">
+        <div class="newsletter-inner">
+            <div class="newsletter-text">
+                <h2>Stay in the loop</h2>
+                <p>New drops, exclusive deals, zero noise.</p>
+            </div>
+            <div class="newsletter-form">
+                <input type="email" id="email-input" name="email" placeholder="your@email.com" />
+                <button id="subscribe-btn">Subscribe</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 ShopLab Inc.</p>
+        <p>// Built for QA automation demos</p>
+    </footer>
+
+    <!-- ────────────────────────────────────────────
+     BREAK PANEL — QA Mutation Control
+────────────────────────────────────────────── -->
+    <div id="break-panel">
+        <h3>🔬 DOM Mutation Lab</h3>
+        <div class="break-list" id="break-list">
+
+            <div class="break-item" data-break="nav-link-to-text">
+                <span class="break-label">Nav link → plain text</span>
+                <span class="break-tag">a → span</span>
+            </div>
+
+            <div class="break-item" data-break="cart-button-to-div">
+                <span class="break-label">Cart button → div</span>
+                <span class="break-tag">button → div</span>
+            </div>
+
+            <div class="break-item" data-break="search-type-change">
+                <span class="break-label">Search input type</span>
+                <span class="break-tag">search → text</span>
+            </div>
+
+            <div class="break-item" data-break="product-heading-to-div">
+                <span class="break-label">Product h3 → div</span>
+                <span class="break-tag">h3 → div</span>
+            </div>
+
+            <div class="break-item" data-break="price-strong-to-span">
+                <span class="break-label">Price strong → span</span>
+                <span class="break-tag">strong → span</span>
+            </div>
+
+            <div class="break-item" data-break="add-btn-to-div">
+                <span class="break-label">Add-to-cart → div</span>
+                <span class="break-tag">button → div</span>
+            </div>
+
+            <div class="break-item" data-break="hero-cta-to-div">
+                <span class="break-label">Hero CTA → div</span>
+                <span class="break-tag">button → div</span>
+            </div>
+
+            <div class="break-item" data-break="email-name-change">
+                <span class="break-label">Email field name attr</span>
+                <span class="break-tag">email → mail</span>
+            </div>
+
+        </div>
+        <div class="break-footer">
+            <button id="apply-breaks">Apply Selected</button>
+            <button id="reset-btn">Reset</button>
+        </div>
+        <div class="status-bar" id="status-bar"></div>
+    </div>
+
+    <script>
+        // ── Cart state ──
+        let cartCount = 0;
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', () => {
+                cartCount++;
+                document.getElementById('cart-count').textContent = cartCount;
+            });
+        });
+
+        // ── Break panel selection ──
+        const breakItems = document.querySelectorAll('.break-item');
+        breakItems.forEach(item => {
+            item.addEventListener('click', () => item.classList.toggle('active'));
+        });
+
+        // ── Track applied breaks for reset ──
+        const appliedBreaks = new Set();
+
+        // ── Mutation functions ──
+        const mutations = {
+
+            'nav-link-to-text': () => {
+                // <a id="nav-products"> → <span> (link loses href + click semantics)
+                const link = document.getElementById('nav-products');
+                if (!link || link.tagName !== 'A') return false;
+                const span = document.createElement('span');
+                span.id = 'nav-products';
+                span.className = 'broken-nav-link';
+                span.textContent = link.textContent;
+                link.replaceWith(span);
+                return true;
+            },
+
+            'cart-button-to-div': () => {
+                // <button id="cart-btn"> → <div> (loses native click / keyboard activation)
+                const btn = document.getElementById('cart-btn');
+                if (!btn || btn.tagName !== 'BUTTON') return false;
+                const div = document.createElement('div');
+                div.id = 'cart-btn';
+                div.className = 'broken-cart-btn';
+                div.innerHTML = btn.innerHTML;
+                btn.replaceWith(div);
+                return true;
+            },
+
+            'search-type-change': () => {
+                // input[type="search"] → input[type="text"]  (breaks CSS/Playwright [type=search] selectors)
+                const input = document.getElementById('search-input');
+                if (!input || input.type !== 'search') return false;
+                input.type = 'text';
+                return true;
+            },
+
+            'product-heading-to-div': () => {
+                // <h3 class="product-name"> → <div> on all product cards
+                const headings = document.querySelectorAll('h3.product-name');
+                if (!headings.length) return false;
+                headings.forEach(h3 => {
+                    const div = document.createElement('div');
+                    div.id = h3.id;
+                    div.className = 'broken-product-name';
+                    div.textContent = h3.textContent;
+                    h3.replaceWith(div);
+                });
+                return true;
+            },
+
+            'price-strong-to-span': () => {
+                // <strong class="product-price"> → <span>  (breaks strong/b selectors)
+                const prices = document.querySelectorAll('strong.product-price');
+                if (!prices.length) return false;
+                prices.forEach(strong => {
+                    const span = document.createElement('span');
+                    span.id = strong.id;
+                    span.className = 'broken-price';
+                    span.textContent = strong.textContent;
+                    strong.replaceWith(span);
+                });
+                return true;
+            },
+
+            'add-btn-to-div': () => {
+                // <button class="add-to-cart"> → <div>  (kills click events on these buttons)
+                const btns = document.querySelectorAll('button.add-to-cart');
+                if (!btns.length) return false;
+                btns.forEach(btn => {
+                    const div = document.createElement('div');
+                    div.className = 'broken-add-btn';
+                    div.dataset.product = btn.dataset.product;
+                    div.setAttribute('aria-label', btn.getAttribute('aria-label'));
+                    div.textContent = btn.textContent;
+                    btn.replaceWith(div);
+                });
+                return true;
+            },
+
+            'hero-cta-to-div': () => {
+                // <button id="hero-cta"> → <div>  (primary CTA loses interactivity)
+                const btn = document.getElementById('hero-cta');
+                if (!btn || btn.tagName !== 'BUTTON') return false;
+                const div = document.createElement('div');
+                div.id = 'hero-cta';
+                div.style.cssText = `
+        display:inline-block; border:1px solid var(--accent); color:var(--accent);
+        padding:0.85rem 2rem; font-weight:700; font-size:0.85rem;
+        letter-spacing:0.08em; text-transform:uppercase;
+      `;
+                div.textContent = btn.textContent;
+                btn.replaceWith(div);
+                return true;
+            },
+
+            'email-name-change': () => {
+                // input name="email" → name="mail"  (breaks form field name selectors)
+                const input = document.getElementById('email-input');
+                if (!input || input.name !== 'email') return false;
+                input.name = 'mail';
+                input.id = 'mail-input'; // id also shifts
+                return true;
+            }
+        };
+
+        // ── URL param auto-apply ──
+        // Reads ?break=key1,key2 on load and applies those mutations immediately.
+        // This means MCP or Playwright can open a pre-broken page just via URL.
+        function applyFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const breakParam = params.get('break');
+            if (!breakParam) return;
+
+            const keys = breakParam.split(',').map(k => k.trim()).filter(Boolean);
+            keys.forEach(key => {
+                if (mutations[key] && !appliedBreaks.has(key)) {
+                    const success = mutations[key]();
+                    if (success) {
+                        appliedBreaks.add(key);
+                        // Mark the panel item as applied so the UI reflects state
+                        const item = document.querySelector(`.break-item[data-break="${key}"]`);
+                        if (item) {
+                            item.classList.add('active');
+                            item.style.opacity = '0.5';
+                            item.style.pointerEvents = 'none';
+                            item.querySelector('.break-tag').textContent = 'applied';
+                        }
+                    }
+                }
+            });
+
+            if (appliedBreaks.size > 0) {
+                setStatus(`⚡ ${appliedBreaks.size} mutation${appliedBreaks.size > 1 ? 's' : ''} loaded from URL`, 'broke');
+            }
+        }
+
+        // ── Update URL to reflect current applied breaks ──
+        function updateUrl() {
+            const keys = Array.from(appliedBreaks);
+            const url = new URL(window.location.href);
+            if (keys.length > 0) {
+                url.searchParams.set('break', keys.join(','));
+            } else {
+                url.searchParams.delete('break');
+            }
+            window.history.replaceState({}, '', url.toString());
+        }
+
+        // ── Apply button ──
+        document.getElementById('apply-breaks').addEventListener('click', () => {
+            const selected = document.querySelectorAll('.break-item.active');
+            if (!selected.length) {
+                setStatus('Select at least one mutation.', '');
+                return;
+            }
+
+            let applied = 0;
+            selected.forEach(item => {
+                const key = item.dataset.break;
+                if (!appliedBreaks.has(key) && mutations[key] && mutations[key]()) {
+                    appliedBreaks.add(key);
+                    applied++;
+                    item.classList.remove('active');
+                    item.style.opacity = '0.5';
+                    item.style.pointerEvents = 'none';
+                    item.querySelector('.break-tag').textContent = 'applied';
+                }
+            });
+
+            if (applied > 0) {
+                updateUrl();
+                setStatus(`⚡ ${applied} mutation${applied > 1 ? 's' : ''} applied — copy the URL to share this broken state!`, 'broke');
+            } else {
+                setStatus('Already applied or nothing changed.', '');
+            }
+        });
+
+        // ── Reset button ──
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            const url = new URL(window.location.href);
+            url.searchParams.delete('break');
+            window.location.href = url.toString();
+        });
+
+        function setStatus(msg, cls) {
+            const bar = document.getElementById('status-bar');
+            bar.textContent = msg;
+            bar.className = 'status-bar ' + cls;
+        }
+
+        // ── Run URL params on load ──
+        applyFromUrl();
+    </script>
+</body>
+
+</html>
