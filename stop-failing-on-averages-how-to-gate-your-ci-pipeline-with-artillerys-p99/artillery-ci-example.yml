@@ -1,0 +1,37 @@
+# artillery-ci-example.yml
+config:
+  target: "http://localhost:80"
+  phases:
+    - name: "Warm up"
+      duration: 10
+      arrivalRate: 5
+    - name: "Sustained load"
+      duration: 30
+      arrivalRate: 20
+      rampTo: 50
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: "GET endpoint check"
+    flow:
+      - get:
+          url: "/get"
+          expect:
+            - statusCode: 200
+
+  - name: "POST endpoint check"
+    flow:
+      - post:
+          url: "/post"
+          json:
+            userId: "{{ $randomInt(1, 1000) }}"
+            action: "checkout"
+          expect:
+            - statusCode: 200
+
+ensure:
+  p95: 500
+  p99: 1500
+  maxErrorRate: 1
