@@ -1,0 +1,17 @@
+description: "Resume & retry demo — customer support bot"
+
+prompts:
+  - file://prompt.txt
+
+providers:
+  - openai:gpt-4o-mini
+
+tests: file://tests.csv
+
+extensions:
+  - file://hooks.js:extensionHook
+
+# Slow things down slightly so interrupting mid-run is easier to demo
+commandLineOptions:
+  delay: 800
+  maxConcurrency: 2
