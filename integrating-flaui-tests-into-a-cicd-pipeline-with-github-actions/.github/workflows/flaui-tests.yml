@@ -1,0 +1,74 @@
+name: FlaUI Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 2 * * *'
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Disable UAC
+        run: |
+          Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" `
+            -Name "EnableLUA" -Value 0
+        shell: powershell
+
+      - name: Disable screen saver and lock screen
+        run: |
+          Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "ScreenSaveActive" -Value 0
+          powercfg /change standby-timeout-ac 0
+          powercfg /change monitor-timeout-ac 0
+        shell: powershell
+
+      - name: Set screen resolution
+        run: |
+          Set-DisplayResolution -Width 1920 -Height 1080 -Force
+        shell: powershell
+
+      - name: Restore NuGet packages
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Copy application under test
+        run: |
+          cp ./TextConverterApp/bin/Release/net8.0-windows/TextConverterApp.exe ./TextConverterApp.Tests/bin/Release/net8.0-windows/
+        shell: powershell
+
+      - name: Run FlaUI tests
+        env:
+          APP_PATH: TextConverterApp.exe
+        run: dotnet test --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx" --results-directory ./TestResults
+
+      - name: Publish test results
+        uses: dorny/test-reporter@v3
+        if: always()
+        with:
+          name: FlaUI Test Results
+          path: ./TestResults/*.trx
+          reporter: dotnet-trx
+
+      - name: Upload test artifacts
+        uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: test-failure-artifacts
+          path: |
+            ./TestResults/*.trx
+            ./TestResults/*.png
+          retention-days: 7
