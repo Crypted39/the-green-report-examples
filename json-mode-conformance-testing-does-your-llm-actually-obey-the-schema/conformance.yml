@@ -1,0 +1,27 @@
+name: JSON Conformance Check
+
+on:
+  schedule:
+    - cron: "0 6 * * *"   # daily at 06:00 UTC
+  workflow_dispatch: {}    # allows manual runs from the Actions tab
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run offline logic tests
+        run: python -m pytest test_conformance_check.py -v
+
+      - name: Run live conformance check
+        run: python conformance_check.py --runs 50 --min-rate 95
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
