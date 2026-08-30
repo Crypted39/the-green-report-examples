@@ -1,0 +1,16 @@
+{
+  "name": "playwright-ai-failure-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Minimal demo of capturing a screenshot + ARIA snapshot on Playwright test failure for LLM-assisted debugging.",
+  "scripts": {
+    "test": "playwright test",
+    "test:pass": "playwright test -g \"^user can submit an order$\"",
+    "test:fail": "playwright test -g \"bug simulation\""
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.4.0",
+    "typescript": "^7.0.2"
+  }
+}

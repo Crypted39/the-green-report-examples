@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TGR Demo Checkout</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main class="checkout-card">
+    <h1>Checkout</h1>
+    <p class="subtitle">Demo page for the Playwright failure-capture pattern.</p>
+
+    <form id="checkout-form">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required />
+
+      <button type="submit" id="submit-btn">Submit Order</button>
+    </form>
+
+    <p id="confirmation" class="confirmation" hidden>Order confirmed</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
