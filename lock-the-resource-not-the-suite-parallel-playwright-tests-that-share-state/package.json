@@ -1,0 +1,21 @@
+{
+  "name": "lock-test",
+  "version": "1.0.0",
+  "description": "Demo suite for Playwright 1.63 test locks: one shared record, 24 tests, three parallelism strategies.",
+  "main": "index.js",
+  "scripts": {
+    "app": "node server/app.js",
+    "test:naive": "playwright test --project=naive --reporter=line --add-reporter=./reporters/timeline.ts",
+    "test:workers1": "playwright test --project=naive --workers=1 --reporter=line --add-reporter=./reporters/timeline.ts",
+    "test:locked": "playwright test --project=locked --reporter=line --add-reporter=./reporters/timeline.ts",
+    "bench": "node bench.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.4.1"
+  }
+}
