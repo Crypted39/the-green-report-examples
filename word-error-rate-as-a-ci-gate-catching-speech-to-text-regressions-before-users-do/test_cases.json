@@ -1,0 +1,22 @@
+[
+  {
+    "id": "meeting-intro",
+    "reference": "Good morning, everyone. Let's start with the Q3 numbers.",
+    "hypothesis": "Good morning everyone, let's start with the Q three numbers."
+  },
+  {
+    "id": "support-call",
+    "reference": "My order number is 48213 and it hasn't arrived yet.",
+    "hypothesis": "my order number is 4813 and it has not arrived yet"
+  },
+  {
+    "id": "voice-command",
+    "reference": "Set a timer for twenty-five minutes.",
+    "hypothesis": "set a timer for twenty five minutes"
+  },
+  {
+    "id": "address-lookup",
+    "reference": "The office is at 221B Baker Street, London.",
+    "hypothesis": "The office is at 221B Baker Street London."
+  }
+]
