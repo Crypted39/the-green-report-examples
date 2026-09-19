@@ -1,0 +1,9 @@
+{
+  "name": "transient-retry",
+  "task": "Find files mentioning config",
+  "world": { "transientFailures": 1 },
+  "steps": [
+    { "toolCalls": [{ "tool": "search", "args": { "query": "config" } }] },
+    { "final": "Found config.json." }
+  ]
+}

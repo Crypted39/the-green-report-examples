@@ -1,0 +1,14 @@
+{
+  "name": "harness-tool-redundancy-demo",
+  "version": "1.0.0",
+  "description": "Demo: detecting redundant tool calls in an AI agent harness",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "trace": "node run.js"
+  },
+  "engines": {
+    "node": ">=18.14.0"
+  }
+}
