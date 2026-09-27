@@ -1,0 +1,20 @@
+<Window x:Class="DesktopReportApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DesktopReportApp"
+        mc:Ignorable="d"
+        Title="TGR Report Viewer" Height="220" Width="360">
+    <StackPanel Margin="24" VerticalAlignment="Center">
+        <Button x:Name="ViewReportButton"
+                AutomationProperties.AutomationId="ViewReportButton"
+                Content="View Report"
+                Padding="12,6"
+                Click="ViewReportButton_Click" />
+        <TextBlock x:Name="StatusText"
+                   AutomationProperties.AutomationId="StatusText"
+                   TextAlignment="Center"
+                   Margin="0,16,0,0" />
+    </StackPanel>
+</Window>
