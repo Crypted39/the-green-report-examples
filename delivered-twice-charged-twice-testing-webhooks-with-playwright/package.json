@@ -1,0 +1,17 @@
+{
+  "name": "webhook-testing-example",
+  "version": "1.0.0",
+  "description": "A tiny webhook receiver and the tests that prove it handles signatures, duplicates, ordering and retries.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "playwright test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0"
+  }
+}
