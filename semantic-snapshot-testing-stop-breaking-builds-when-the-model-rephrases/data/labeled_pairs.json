@@ -1,0 +1,34 @@
+[
+  {"kind": "paraphrase", "snapshot": "Standard shipping takes 3 to 5 business days. Orders placed before 2 PM ship the same day.", "response": "Orders usually arrive within 3 to 5 business days, and anything placed before 2 PM goes out the same day."},
+  {"kind": "paraphrase", "snapshot": "You can return any item within 30 days of delivery for a full refund.", "response": "Items can be sent back for a full refund as long as it is within 30 days after they arrive."},
+  {"kind": "paraphrase", "snapshot": "To reset your password, open Settings, choose Security, and select Reset Password. A link will be emailed to you and expires after 15 minutes.", "response": "Go to Settings, then Security, and click Reset Password. We will email you a link that stops working after 15 minutes."},
+  {"kind": "paraphrase", "snapshot": "Our support team is available Monday to Friday, 9 AM to 6 PM CET.", "response": "You can reach support on weekdays between 9 AM and 6 PM CET."},
+  {"kind": "paraphrase", "snapshot": "Orders over $50 qualify for free standard shipping.", "response": "Standard shipping is free when your order total is above $50."},
+  {"kind": "paraphrase", "snapshot": "All electronics come with a 2 year limited warranty.", "response": "Every electronic product is covered by a limited warranty that lasts 2 years."},
+  {"kind": "paraphrase", "snapshot": "You can cancel an order within 1 hour of placing it, as long as it has not shipped.", "response": "As long as your order has not shipped yet, you have 1 hour after placing it to cancel."},
+  {"kind": "paraphrase", "snapshot": "We accept Visa, Mastercard, and PayPal.", "response": "You can pay with Visa, Mastercard, or PayPal."},
+  {"kind": "paraphrase", "snapshot": "Your subscription renews automatically every month on the 1st, and you can cancel any time before then.", "response": "Each month on the 1st your subscription renews on its own, but you are free to cancel before that date."},
+  {"kind": "paraphrase", "snapshot": "Once your order ships, you will receive an email with a tracking number.", "response": "When your order is on its way, we will send you an email containing the tracking number."},
+
+  {"kind": "number_change", "snapshot": "Standard shipping takes 3 to 5 business days. Orders placed before 2 PM ship the same day.", "response": "Standard shipping takes 5 to 7 business days. Orders placed before 2 PM ship the same day."},
+  {"kind": "number_change", "snapshot": "You can return any item within 30 days of delivery for a full refund.", "response": "You can return any item within 14 days of delivery for a full refund."},
+  {"kind": "number_change", "snapshot": "To reset your password, open Settings, choose Security, and select Reset Password. A link will be emailed to you and expires after 15 minutes.", "response": "To reset your password, open Settings, choose Security, and select Reset Password. A link will be emailed to you and expires after 60 minutes."},
+  {"kind": "number_change", "snapshot": "Our support team is available Monday to Friday, 9 AM to 6 PM CET.", "response": "Our support team is available Monday to Friday, 9 AM to 4 PM CET."},
+  {"kind": "number_change", "snapshot": "Orders over $50 qualify for free standard shipping.", "response": "Orders over $100 qualify for free standard shipping."},
+  {"kind": "number_change", "snapshot": "All electronics come with a 2 year limited warranty.", "response": "All electronics come with a 1 year limited warranty."},
+  {"kind": "number_change", "snapshot": "You can cancel an order within 1 hour of placing it, as long as it has not shipped.", "response": "You can cancel an order within 24 hours of placing it, as long as it has not shipped."},
+
+  {"kind": "word_change", "snapshot": "You can return any item within 30 days of delivery for a full refund.", "response": "You can return any item within 30 days of delivery for store credit only."},
+  {"kind": "word_change", "snapshot": "We accept Visa, Mastercard, and PayPal.", "response": "We accept Visa, Mastercard, and Amex."},
+  {"kind": "word_change", "snapshot": "Our support team is available Monday to Friday, 9 AM to 6 PM CET.", "response": "Our support team is available Saturday to Sunday, 9 AM to 6 PM CET."},
+  {"kind": "word_change", "snapshot": "Standard shipping takes 3 to 5 business days. Orders placed before 2 PM ship the same day.", "response": "Standard shipping does not take 3 to 5 business days. Orders placed before 2 PM do not ship the same day."},
+  {"kind": "word_change", "snapshot": "Your subscription renews automatically every month on the 1st, and you can cancel any time before then.", "response": "Your subscription renews automatically every month on the 1st, and you cannot cancel once it has started."},
+  {"kind": "word_change", "snapshot": "Once your order ships, you will receive an email with a tracking number.", "response": "Once your order ships, you will not receive any tracking information."},
+
+  {"kind": "unrelated", "snapshot": "Standard shipping takes 3 to 5 business days. Orders placed before 2 PM ship the same day.", "response": "We do not ship to your country."},
+  {"kind": "unrelated", "snapshot": "You can return any item within 30 days of delivery for a full refund.", "response": "I am sorry, I cannot help with that request."},
+  {"kind": "unrelated", "snapshot": "To reset your password, open Settings, choose Security, and select Reset Password. A link will be emailed to you and expires after 15 minutes.", "response": "Our office is closed on public holidays."},
+  {"kind": "unrelated", "snapshot": "Our support team is available Monday to Friday, 9 AM to 6 PM CET.", "response": "Your order has been delivered to the front desk."},
+  {"kind": "unrelated", "snapshot": "All electronics come with a 2 year limited warranty.", "response": "I could not find any information about that. Could you rephrase your question?"},
+  {"kind": "unrelated", "snapshot": "We accept Visa, Mastercard, and PayPal.", "response": "The weather today is sunny with a high of 24 degrees."}
+]
