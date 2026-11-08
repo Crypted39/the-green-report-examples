@@ -1,0 +1,81 @@
+{
+    "version": 1,
+    "entries": {
+        "add-blue-shirt": {
+            "instruction": "Open the Blue T-Shirt, pick size M and add it to the cart",
+            "platform": "web",
+            "steps": [
+                {
+                    "action": "click",
+                    "args": {
+                        "target": "role/link[name=\"Blue T-Shirt\"]"
+                    },
+                    "code": "await $('role/link[name=\"Blue T-Shirt\"]').click()",
+                    "target": {
+                        "selector": "role/link[name=\"Blue T-Shirt\"]",
+                        "role": "link",
+                        "name": "Blue T-Shirt",
+                        "candidates": [
+                            "role/link[name=\"Blue T-Shirt\"]",
+                            "aria/Blue T-Shirt",
+                            "a=Blue T-Shirt",
+                            "main > ul > li:nth-of-type(1) > a"
+                        ]
+                    },
+                    "effect": {
+                        "navigation": "/products/blue"
+                    }
+                },
+                {
+                    "action": "select",
+                    "args": {
+                        "target": "role/combobox[name=\"Size\"]",
+                        "value": "M"
+                    },
+                    "code": "await $('role/combobox[name=\"Size\"]').selectByVisibleText('M')",
+                    "target": {
+                        "selector": "role/combobox[name=\"Size\"]",
+                        "role": "combobox",
+                        "name": "Size",
+                        "candidates": [
+                            "role/combobox[name=\"Size\"]",
+                            "aria/Size",
+                            "#size",
+                            "main > select"
+                        ]
+                    }
+                },
+                {
+                    "action": "click",
+                    "args": {
+                        "target": "role/button[name=\"Add to cart\"]"
+                    },
+                    "code": "await $('role/button[name=\"Add to cart\"]').click()",
+                    "target": {
+                        "selector": "role/button[name=\"Add to cart\"]",
+                        "role": "button",
+                        "name": "Add to cart",
+                        "candidates": [
+                            "role/button[name=\"Add to cart\"]",
+                            "aria/Add to cart",
+                            "#add-to-cart",
+                            "button=Add to cart",
+                            "main > button"
+                        ]
+                    },
+                    "effect": {
+                        "requests": [
+                            "POST /api/cart → 2xx"
+                        ],
+                        "changed": [
+                            "banner",
+                            "complementary \"Cart\""
+                        ]
+                    }
+                }
+            ],
+            "model": "ChatOllama:qwen3:8b",
+            "recordedAt": "2026-11-08T13:08:18.007Z"
+        }
+    }
+}

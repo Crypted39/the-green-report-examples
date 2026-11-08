@@ -1,0 +1,5 @@
+node_modules/
+# heal evidence, snapshots and healed-step proposals (not the recorded steps)
+.wdio/
+logs/
+# commit test/specs/__act__/ - that is the recorded steps
